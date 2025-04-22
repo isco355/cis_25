@@ -1,97 +1,35 @@
-#include <algorithm>
-#include <chrono>
 #include <cstdlib>
 #include <iostream>
-#include <string>
-#include <thread>
 
 using namespace std;
-void stopFor(int mili_second) {
-  this_thread::sleep_for(std::chrono::milliseconds(mili_second));
-}
-void clearScreen() { std::cout << "\033[2J\033[1;1H"; }
-void quitMessage() {
-  std::cout << "Enter \"q\" or \"quit\" to exit program" << std::endl;
-}
-void displayTransactionOptions() {
-  std::cout << "Enter \"d\" or \"deposit\" for deposit money in account"
-            << std::endl;
-  std::cout << "Enter \"w\" or \"widthdraw\" for widthdraw money in account"
-            << std::endl;
-  std::cout << "Enter transaction type:" << std::endl;
-}
+int main() {
 
-bool isOnlyDigits(string text) {
-  for (char character : text) {
-    bool val = isdigit(character);
-    if (val == false) {
-      return false;
-    }
-  }
-  return true;
-}
+  string user_name = "";
+  double balance = 0;
+  double deposit = 0;
+  double withdrawal = 0;
 
-bool isQuitCommand(string command) {
-  bool condition = command == "q" || command == "quit";
-  return condition;
-}
+  std::cout << "Enter user name account holder:" << std::endl;
+  cin >> user_name;
 
-int requestValue() {
-  clearScreen();
-  quitMessage();
-  while (true) {
-    std::cout << "enter value: " << std::endl;
-    string command = "";
-    cin >> command;
-    if (isQuitCommand(command)) {
-      return 0;
-    }
-    bool is_only_digits = isOnlyDigits(command);
-    if (is_only_digits) {
-      return stoi(command);
-    } else {
-      clearScreen();
-      std::cout << "value should be only integer " << std::endl;
-      stopFor(1000);
-    }
-  }
-}
+  std::cout << "Enter start balance:" << std::endl;
+  cin >> balance;
 
-int processTransaction(string command, int balance) {
+  std::cout << "Enter deposit amount:" << std::endl;
+  cin >> deposit;
 
-  if (command == "d" || command == "deposit") {
-    balance += requestValue();
-  } else if (command == "w" || command == "widthdraw") {
-    balance -= requestValue();
-  } else {
-    cout << "command not found " << command << std::endl;
-    stopFor(1000);
-  }
-  return balance;
-}
+  std::cout << "Enter withdrawal:" << std::endl;
+  cin >> withdrawal;
 
-int main(int argc, char *argv[]) {
+  std::cout << "USER NAME: " << user_name << std::endl;
 
-  string transaction_command = "";
-  string user_name = "Francisco";
-  int balance = 0;
+  std::cout << "initial balance amount $: " << balance << std::endl;
 
-  while (true) {
+  std::cout << "deposit amount $: " << deposit << std::endl;
 
-    clearScreen();
-    quitMessage();
-    std::cout << "User Name: " << user_name << std::endl;
-    std::cout << "Current Balance: $" << balance << std::endl;
-
-    displayTransactionOptions();
-    cin >> transaction_command;
-    if (isQuitCommand(transaction_command) == true) {
-      break;
-    }
-    balance = processTransaction(transaction_command, balance);
-  }
-
-  return 0;
+  std::cout << "withdrawal amount $: " << withdrawal << std::endl;
+  balance = (balance + deposit) - withdrawal;
+  std::cout << "Final balance:" << balance << std::endl;
 }
 
 // #include <iostream>

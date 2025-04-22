@@ -32,13 +32,16 @@ int main() {
   if (deposit > 0) {
 
     std::cout << "deposit amount $: " << deposit << std::endl;
+    balance += deposit;
+    std::cout << "current balance:" << balance << std::endl;
   } else {
     std::cout << "deposit should be greater than zero" << std::endl;
   }
 
   if (withdrawal <= balance) {
-
+    balance -= withdrawal;
     std::cout << "withdrawal amount $: " << withdrawal << std::endl;
+    std::cout << "current balance:" << balance << std::endl;
   } else {
     std::cout << "withdrawal should be greater than zero" << std::endl;
   }
