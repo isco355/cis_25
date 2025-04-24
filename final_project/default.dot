@@ -1,0 +1,6 @@
+digraph {
+    OAKLAND -> SF;
+    TORONTO -> c;
+    c -> d;
+    d -> a;
+}
