@@ -1,85 +1,12 @@
 #include "flyManager.h"
+#include <fstream>
 #include <iostream>
 #include <map>
+#include <regex>
 #include <set>
 #include <string>
 #include <vector>
 using namespace std;
-
-// class Route {
-// public:
-//   string name;
-//   unsigned int distance;
-//   Route(string port_name, int d) {
-//     name = port_name;
-//     distance = d;
-//   };
-//   friend std::ostream &operator<<(std::ostream &os, const Route &route) {
-//     os << route.name << "(" << route.distance << ")";
-//     return os;
-//   };
-// };
-//
-// class RouteManager {
-// public:
-//   string port_name;
-//   vector<Route> routes;
-//   RouteManager(string port) { port_name = port; };
-//
-//   void displayRoutes() {
-//     for (Route current_port : routes) {
-//       std::cout << current_port << " - ";
-//     }
-//     std::cout << std::endl;
-//   }
-//   void addRoute(string destination, int distance) {
-//     Route temp = Route(destination, distance);
-//     routes.push_back(temp);
-//   };
-//   void removeRoute();
-// };
-
-// class flyManager {
-// public:
-//   map<string, RouteManager *> fly_routes;
-//   flyManager() {};
-//
-//   friend std::ostream &operator<<(std::ostream &os, const flyManager &route)
-//   {
-//     return os;
-//   };
-//   void addFly(string port_name, string destination, int distance) {
-//     RouteManager *port_routes_manager = portRoutes(port_name);
-//     if (port_routes_manager != NULL) {
-//       port_routes_manager->addRoute(destination, distance);
-//     } else {
-//       RouteManager *temp_port = new RouteManager(port_name);
-//       fly_routes[port_name] = temp_port;
-//       temp_port->addRoute(destination, distance);
-//     }
-//   }
-//   bool doesPortExist(string port_name) {
-//     bool res = fly_routes.contains(port_name);
-//     return res;
-//   }
-//
-//   RouteManager *portRoutes(string port_name) {
-//     bool port_exits = doesPortExist(port_name);
-//     if (port_exits) {
-//
-//       RouteManager *port_routes_manager = fly_routes[port_name];
-//       return port_routes_manager;
-//     }
-//     return NULL;
-//   }
-//   void displayFlies() {
-//     for (auto fly : fly_routes) {
-//       std::cout << "Port: " << fly.first;
-//       std::cout << " Routes: ";
-//       fly.second->displayRoutes();
-//     }
-//   }
-// };
 
 void addNextRouteQueue(vector<Route> &queue, string source,
                        set<string> &visited_ports, flyManager &flies) {
@@ -94,6 +21,7 @@ void addNextRouteQueue(vector<Route> &queue, string source,
     }
   }
 }
+
 void findPath(flyManager flies, string source, string destination) {
   std::cout << "source: " << std::endl;
   vector<Route> queue_routes;
@@ -119,15 +47,45 @@ void findPath(flyManager flies, string source, string destination) {
     std::cout << "port not found: " << source << std::endl;
   }
 }
+
+vector<string> validNodeFormat(string line) {
+  vector<string> values;
+  std::regex pattern(
+      R"(\s*([A-Za-z]+)\s*->\s*([A-Za-z]+)\s*\[label="\s*(\d*)\s*"\s*,weight="\s*(\d*)\s*"\];)");
+  std::smatch matches;
+  std::regex_search(line, matches, pattern);
+  for (string m : matches) {
+    values.push_back(m);
+  }
+  return values;
+}
+
+void loadGraph(flyManager &fly_manager) {
+  std::ifstream inputFile("default.dot");
+  if (inputFile.is_open()) {
+    std::string line;
+    while (std::getline(inputFile, line)) {
+      vector<string> matched_line = validNodeFormat(line);
+      if (matched_line.size() == 5) {
+        string source = matched_line[1];
+        string destination = matched_line[2];
+        int distance = stoi(matched_line[3]);
+        fly_manager.addFly(source, destination, distance);
+      }
+    }
+  }
+  inputFile.close();
+}
+
 int main(int argc, char *argv[]) {
   flyManager fly_manager = flyManager();
-  fly_manager.addFly("Oakland", "NYC", 10);
-  fly_manager.addFly("Oakland", "Toronto", 4);
-  fly_manager.addFly("NYC", "SF", 10);
-  fly_manager.addFly("NYC", "Oakland", 10);
-  fly_manager.addFly("Toronto", "Oakland", 3);
-
+  loadGraph(fly_manager);
+  // fly_manager.addFly("Oakland", "NYC", 10);
+  // fly_manager.addFly("Oakland", "Toronto", 4);
+  // fly_manager.addFly("NYC", "SF", 10);
+  // fly_manager.addFly("NYC", "Oakland", 10);
+  // fly_manager.addFly("Toronto", "Oakland", 3);
   fly_manager.displayFlies();
-  findPath(fly_manager, "Toronto", "SF");
+  findPath(fly_manager, "Toronto", "San Jose");
   return 0;
 }
