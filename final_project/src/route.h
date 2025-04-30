@@ -1,10 +1,11 @@
 #ifndef ROUTE_H
 #define ROUTE_H
+#include <algorithm>
+#include <cctype>
 #include <iostream>
 #include <map>
 #include <set>
 #include <string>
-
 using namespace std;
 class Route {
 public:
@@ -24,6 +25,7 @@ public:
 
   RouteManager(string port);
   void displayRoutes();
+  void shortRoutes(vector<Route> &route_values);
   void addRoute(string destination, int distance);
   void removeRoute(string port);
 };

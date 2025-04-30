@@ -1,0 +1,57 @@
+// // New edges
+    // SF -> OAKLAND [label="5",weight="5"];
+    // SF -> NYC [label="8",weight="8"];
+    // Toronto -> NYC [label="6",weight="6"];
+    // Toronto -> SF [label="7",weight="7"];
+    // OAKLAND -> LA [label="12",weight="12"];
+    // LA -> NYC [label="15",weight="15"];
+    // LA -> Toronto [label="9",weight="9"];
+    // NYC -> Chicago [label="11",weight="11"];
+    // Chicago -> SF [label="14",weight="14"];
+    // Chicago -> OAKLAND [label="13",weight="13"];
+    // 
+    // // Additional 50 edges
+    // OAKLAND -> Seattle [label="20",weight="20"];
+    // Seattle -> NYC [label="25",weight="25"];
+    // Seattle -> Toronto [label="30",weight="30"];
+    // Toronto -> Seattle [label="18",weight="18"];
+    // NYC -> Miami [label="22",weight="22"];
+    // Miami -> LA [label="17",weight="17"];
+    // Miami -> Chicago [label="19",weight="19"];
+    // LA -> Seattle [label="16",weight="16"];
+    // Chicago -> Miami [label="21",weight="21"];
+    // SF -> Chicago [label="23",weight="23"];
+    // 
+    // NYC -> Boston [label="12",weight="12"];
+    // Boston -> Toronto [label="15",weight="15"];
+    // Boston -> LA [label="14",weight="14"];
+    // Toronto -> Miami [label="11",weight="11"];
+    // Miami -> SF [label="9",weight="9"];
+    // Seattle -> Chicago [label="24",weight="24"];
+    // LA -> Boston [label="26",weight="26"];
+    // Chicago -> Seattle [label="27",weight="27"];
+    // OAKLAND -> Miami [label="28",weight="28"];
+    // Toronto -> Boston [label="29",weight="29"];
+    // SF -> Miami [label="30",weight="30"];
+    // 
+    // LA -> Denver [label="31",weight="31"];
+    // Denver -> NYC [label="32",weight="32"];
+    // Denver -> Chicago [label="33",weight="33"];
+    // Denver -> SF [label="34",weight="34"];
+    // Miami -> Denver [label="35",weight="35"];
+    // Seattle -> Denver [label="36",weight="36"];
+    // Chicago -> Denver [label="37",weight="37"];
+    // Boston -> Denver [label="38",weight="38"];
+    // Toronto -> Denver [label="39",weight="39"];
+    // OAKLAND -> Denver [label="40",weight="40"];
+    // 
+    // NYC -> Phoenix [label="41",weight="41"];
+    // Phoenix -> LA [label="42",weight="42"];
+    // Phoenix -> Chicago [label="43",weight="43"];
+    // Phoenix -> Seattle [label="44",weight="44"];
+    // Miami -> Phoenix [label="45",weight="45"];
+    // Toronto -> Phoenix [label="46",weight="46"];
+    // OAKLAND -> Phoenix [label="47",weight="47"];
+    // SF -> Phoenix [label="48",weight="48"];
+    // Denver -> Phoenix [label="49",weight="49"];
+    // Chicago -> Phoenix [label="50",weight="50"];

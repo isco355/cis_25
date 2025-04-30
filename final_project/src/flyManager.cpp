@@ -1,6 +1,7 @@
-
 #include "flyManager.h"
-
+// bool compareByDistance(const Route &a, const Route &b) {
+//   RouteManager *port_routes_manager = portRoutes(port_name);
+// }
 void flyManager::addFly(string port_name, string destination, int distance) {
   RouteManager *port_routes_manager = portRoutes(port_name);
   if (port_routes_manager != NULL) {
@@ -27,8 +28,8 @@ RouteManager *flyManager::portRoutes(string port_name) {
 }
 void flyManager::displayFlies() {
   for (auto fly : fly_routes) {
-    std::cout << "Port: " << fly.first;
-    std::cout << " Routes: ";
+    std::cout << "Port: " << fly.first << " : ";
+    // std::cout << " Routes: ";
     fly.second->displayRoutes();
   }
 }
