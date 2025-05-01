@@ -1,14 +1,13 @@
 digraph {
 rankdir=LR ;
-fontSize="10pt" ;
     SF -> OAKLAND [label="5",weight="5"];
     SF -> NYC [label="8",weight="8"];
     Toronto -> NYC [label="6",weight="6"];
     Toronto -> SF [label="7",weight="7"];
-    OAKLAND -> LA [label="12",weight="12",color=red,penwidth=3.0,fontSize=20];
-    LA -> NYC [label="15",weight="15",color=red,penwidth=3.0,fontSize=20];
+    OAKLAND -> LA [label="12",weight="12"];
+    LA -> NYC [label="15",weight="15"];
     LA -> Toronto [label="9",weight="9"];
-    NYC -> Chicago [label="11",weight="11",color=red,penwidth=3.0,fontSize=20];
+    NYC -> Chicago [label="11",weight="11"];
     Chicago -> SF [label="14",weight="14"];
     Chicago -> OAKLAND [label="13",weight="13"];
     OAKLAND -> Seattle [label="20",weight="20"];
@@ -48,7 +47,7 @@ fontSize="10pt" ;
     Phoenix -> Seattle [label="44",weight="44"];
     Miami -> Phoenix [label="45",weight="45"];
     Toronto -> Phoenix [label="46",weight="46"];
-    OAKLAND -> Phoenix [label="47",weight="47"];
+    OAKLAND -> Phoenix [label="47",weight="47",color=red,penwidth=3.0,fontSize=20];
     SF -> Phoenix [label="48",weight="48"];
     Denver -> Phoenix [label="49",weight="49"];
     Chicago -> Phoenix [label="50",weight="50"];
