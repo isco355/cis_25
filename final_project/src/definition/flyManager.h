@@ -23,6 +23,8 @@ public:
   RouteManager *portRoutes(string port_name);
 
   void renderRoutes();
+  void setRandomPortDistance();
+  vector<vector<string>> allConnectionList();
 };
 
 #endif

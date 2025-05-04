@@ -17,6 +17,8 @@ public:
     os << route.name << "[ Distance: " << route.distance << " KM]";
     return os;
   };
+
+  void setRandomDistance();
 };
 
 class RouteManager {
@@ -29,6 +31,8 @@ public:
   void shortRoutes(vector<Route> &route_values);
   void addRoute(string destination, int distance);
   void removeRoute(string port);
+  void randomDistanceRoutes();
+  vector<vector<string>> connectionList();
 };
 
 #endif

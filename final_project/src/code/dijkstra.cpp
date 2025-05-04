@@ -89,4 +89,4 @@ vector<string> Dijkstra::findBackTrackPath() {
   return path;
 }
 
-void Dijkstra::renderRoutes() { graphLoader::render("default", "routes"); }
+void Dijkstra::renderRoutes() { graphLoader::render("routes", "routes"); }

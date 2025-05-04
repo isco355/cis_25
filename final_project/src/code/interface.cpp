@@ -36,10 +36,33 @@ void commandExecution(flyManager &fly_manager, int command) {
     path_helper.findShortPath();
     break;
   }
-  case 4:
-    fly_manager.overview();
-    graphLoader::render("default", "routes");
+  case 3: {
+    std::cout << "RANDOM" << std::endl;
+    string source;
+    string destination;
+    std::cout << "INITIAL POINT(SOURCE): " << std::endl;
+    cin >> source;
+    std::cout << "FINAL POINT(DESTINATION): " << std::endl;
+    cin >> destination;
+    fly_manager.setRandomPortDistance();
+
+    vector<vector<string>> totalC = fly_manager.allConnectionList();
+    graphLoader::reWritedot("./dots/routes.dot", totalC);
+
+    Dijkstra path_helper = Dijkstra(fly_manager, source, destination);
+    path_helper.findShortPath();
+    // graphLoader::render("random", "random");
     break;
+  }
+  case 4: {
+
+    vector<vector<string>> totalC = fly_manager.allConnectionList();
+    graphLoader::reWritedot("./dots/routes.dot", totalC);
+
+    fly_manager.overview();
+    graphLoader::render("routes", "routes");
+    break;
+  }
   default:
 
     break;

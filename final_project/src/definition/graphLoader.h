@@ -15,5 +15,7 @@ namespace graphLoader {
 void loadGraph(flyManager &fly_manager);
 void traceRoute(vector<string> path);
 void render(string source_name_file, string output_name_file);
+
+void reWritedot(string file_name, vector<vector<string>> connections);
 } // namespace graphLoader
 #endif

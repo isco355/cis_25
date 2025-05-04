@@ -9,6 +9,5 @@ rankdir=LR ;
  SF -> OAKLAND [label="7",weight="7"];
  SF -> NYC [label="9",weight="9"];
  TORONTO -> NYC [label="9",weight="9"];
- TORONTO -> SF [label="2",weight="2",color=royalblue2,penwidth=8.0,fontSize=20];
-
+ TORONTO -> SF [label="2",weight="2"];
 }

@@ -47,12 +47,22 @@ RouteManager *flyManager::portRoutes(string port_name) {
 }
 void flyManager::displayFlies() {
   for (auto fly : fly_routes) {
-    int total_routes = fly.second->routes.size();
-    std::cout << "PORT NAME: " << fly.first << endl;
-    std::cout << "TOTAL ROUTES: " << total_routes << std::endl;
-
-    std::cout << "ROUTES:" << endl;
-    fly.second->displayRoutes();
-    std::cout << std::endl;
+    RouteManager *route_manager = fly.second;
+    route_manager->displayRoutes();
   }
+}
+
+void flyManager::setRandomPortDistance() {
+  for (auto fly : fly_routes) {
+    RouteManager *route_manager = fly.second;
+    route_manager->randomDistanceRoutes();
+  }
+}
+vector<vector<string>> flyManager::allConnectionList() {
+  vector<vector<string>> connections = {};
+  for (auto fly : fly_routes) {
+    RouteManager *route_manager = fly.second;
+    vector<vector<string>> temp = route_manager->connectionList();
+  }
+  return connections;
 }

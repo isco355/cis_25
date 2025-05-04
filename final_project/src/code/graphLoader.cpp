@@ -30,57 +30,94 @@ vector<string> validNodeFormat(string line) {
   return values;
 }
 
-void graphLoader::traceRoute(vector<string> path) {
-  string file_name = "dots/track_route.dot";
+string newLine(vector<string> matched_line, bool is_trace = false) {
+  string source = matched_line[1];
+  string destination = matched_line[2];
+  string distance = matched_line[3];
 
-  std::ofstream file(file_name, std::ios::trunc);
+  std::transform(source.begin(), source.end(), source.begin(), ::toupper);
+  std::transform(destination.begin(), destination.end(), destination.begin(),
+                 ::toupper);
+  string sub_path = " " + source + " -> " + destination;
+  sub_path += " \[label=\"" + distance;
+  sub_path += "\",weight=\"" + distance + "\"\];";
+  if (is_trace) {
+    sub_path.pop_back();
+    sub_path.pop_back();
+    sub_path += ",color=royalblue2,penwidth=8.0,fontSize=20];\n";
+  }
+  return sub_path;
+}
+
+void getFile(string file_name) {
+
   std::fstream inputFile(file_name);
   bool file_exit = inputFile.good();
-  if (file_exit) {
-    std::ifstream default_file(default_file_name);
-    if (default_file.is_open()) {
-      inputFile << "digraph {" << endl;
-      inputFile << "rankdir=LR ;" << endl;
-
-      std::string line;
-      while (std::getline(default_file, line)) {
-        vector<string> matched_line = validNodeFormat(line);
-        if (matched_line.size() == 5) {
-          string source = matched_line[1];
-          string destination = matched_line[2];
-          int distance = stoi(matched_line[3]);
-
-          std::transform(source.begin(), source.end(), source.begin(),
-                         ::toupper);
-          std::transform(destination.begin(), destination.end(),
-                         destination.begin(), ::toupper);
-
-          string sub_path = source + " -> " + destination;
-          bool sub_path_found =
-              find(path.begin(), path.end(), sub_path) != path.end();
-          if (sub_path_found) {
-            line.pop_back();
-            line.pop_back();
-            inputFile << line << ",color=royalblue2,penwidth=8.0,fontSize=20];"
-                      << endl;
-          } else {
-            inputFile << line << endl;
-          }
-        }
-      }
-
-      inputFile << "}";
-    }
-    inputFile.close();
-
-  } else {
+  if (!file_exit) {
     std::cout << "not found" << std::endl;
     string str_command = "touch " + file_name;
     executeCommand(str_command);
   }
 }
+void initialFile(fstream &file) {
+  file << "digraph {" << endl;
+  file << "rankdir=LR ;" << endl;
+}
+void graphLoader::reWritedot(string file_name,
+                             vector<vector<string>> connections) {
+
+  getFile(file_name);
+  string erase_command = "echo \"\" > " + file_name;
+  executeCommand(erase_command);
+  std::fstream temp_dot_file(file_name);
+
+  bool is_open = temp_dot_file.is_open();
+  std::cout << is_open << std::endl;
+  if (is_open) {
+
+    initialFile(temp_dot_file);
+    for (auto connection : connections) {
+      string line = newLine(connection);
+      temp_dot_file << line << endl;
+    }
+
+    temp_dot_file << "}";
+  }
+
+  temp_dot_file.close();
+}
+void graphLoader::traceRoute(vector<string> trace_path) {
+  string file_name = "dots/routes.dot";
+  string target_name = "dots/track_route.dot";
+  std::fstream inputFile(file_name);
+  std::fstream target_file(target_name);
+
+  getFile(file_name);
+  string erase_command = "echo \"\" > " + target_name;
+  executeCommand(erase_command);
+  if (inputFile.is_open()) {
+    initialFile(target_file);
+    std::string line;
+    while (std::getline(inputFile, line)) {
+      vector<string> matched_line = validNodeFormat(line);
+      if (matched_line.size() == 5) {
+        string source = matched_line[1];
+        string destination = matched_line[2];
+        string sub_path = source + " -> " + destination;
+
+        bool sub_path_found = find(trace_path.begin(), trace_path.end(),
+                                   sub_path) != trace_path.end();
+        line = newLine(matched_line, sub_path_found);
+        target_file << line << endl;
+      }
+    }
+
+    target_file << "}";
+  }
+  inputFile.close();
+}
+
 void graphLoader::loadGraph(flyManager &fly_manager) {
-  std::cout << "loading graph...." << std::endl;
   std::ifstream inputFile(default_file_name);
   if (inputFile.is_open()) {
     std::string line;

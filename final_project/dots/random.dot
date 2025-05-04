@@ -1,0 +1,13 @@
+digraph {
+rankdir=LR ;
+CHICAGO -> SF [label="441",weight="441"];
+CHICAGO -> OAKLAND [label="166",weight="166"];
+LA -> NYC [label="493",weight="493"];
+LA -> TORONTO [label="43",weight="43"];
+NYC -> CHICAGO [label="988",weight="988"];
+OAKLAND -> LA [label="504",weight="504"];
+SF -> OAKLAND [label="328",weight="328"];
+SF -> NYC [label="730",weight="730"];
+TORONTO -> NYC [label="841",weight="841"];
+TORONTO -> SF [label="613",weight="613"];
+}
