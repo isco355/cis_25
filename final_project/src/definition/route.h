@@ -1,0 +1,34 @@
+#ifndef ROUTE_H
+#define ROUTE_H
+#include <algorithm>
+#include <cctype>
+#include <iostream>
+#include <map>
+#include <set>
+#include <string>
+
+using namespace std;
+class Route {
+public:
+  string name;
+  unsigned int distance;
+  Route(string port_name, int d);
+  friend std::ostream &operator<<(std::ostream &os, const Route &route) {
+    os << route.name << "[ Distance: " << route.distance << " KM]";
+    return os;
+  };
+};
+
+class RouteManager {
+public:
+  string port_name;
+  vector<Route> routes;
+
+  RouteManager(string port);
+  void displayRoutes();
+  void shortRoutes(vector<Route> &route_values);
+  void addRoute(string destination, int distance);
+  void removeRoute(string port);
+};
+
+#endif
