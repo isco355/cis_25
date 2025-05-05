@@ -38,13 +38,13 @@ string newLine(vector<string> matched_line, bool is_trace = false) {
   std::transform(source.begin(), source.end(), source.begin(), ::toupper);
   std::transform(destination.begin(), destination.end(), destination.begin(),
                  ::toupper);
-  string sub_path = " " + source + " -> " + destination;
+  string sub_path = source + " -> " + destination;
   sub_path += " \[label=\"" + distance;
-  sub_path += "\",weight=\"" + distance + "\"\];";
+  sub_path += "\",weight=\"" + distance + "\"];";
   if (is_trace) {
     sub_path.pop_back();
     sub_path.pop_back();
-    sub_path += ",color=royalblue2,penwidth=8.0,fontSize=20];\n";
+    sub_path += ",color=royalblue2,penwidth=8.0,fontSize=20,shape=Msquare];\n";
   }
   return sub_path;
 }
@@ -62,6 +62,9 @@ void getFile(string file_name) {
 void initialFile(fstream &file) {
   file << "digraph {" << endl;
   file << "rankdir=LR ;" << endl;
+  file << "bgcolor=\"black\";";
+  file << "node \[fontcolor=\"white\",color=\"white\"];" << endl;
+  file << "edge\[color=\"white\", fontcolor =\"white\"];";
 }
 void graphLoader::reWritedot(string file_name,
                              vector<vector<string>> connections) {
@@ -104,9 +107,8 @@ void graphLoader::traceRoute(vector<string> trace_path) {
         string source = matched_line[1];
         string destination = matched_line[2];
         string sub_path = source + " -> " + destination;
-
-        bool sub_path_found = find(trace_path.begin(), trace_path.end(),
-                                   sub_path) != trace_path.end();
+        auto it = find(trace_path.begin(), trace_path.end(), sub_path);
+        bool sub_path_found = it != trace_path.end();
         line = newLine(matched_line, sub_path_found);
         target_file << line << endl;
       }

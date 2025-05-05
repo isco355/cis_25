@@ -47,8 +47,10 @@ RouteManager *flyManager::portRoutes(string port_name) {
 }
 void flyManager::displayFlies() {
   for (auto fly : fly_routes) {
+    std::cout << std::endl;
     RouteManager *route_manager = fly.second;
     route_manager->displayRoutes();
+    std::cout << std::endl;
   }
 }
 
@@ -63,6 +65,7 @@ vector<vector<string>> flyManager::allConnectionList() {
   for (auto fly : fly_routes) {
     RouteManager *route_manager = fly.second;
     vector<vector<string>> temp = route_manager->connectionList();
+    connections.insert(connections.end(), temp.begin(), temp.end());
   }
   return connections;
 }

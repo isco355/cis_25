@@ -1,7 +1,18 @@
 #include "../definition/dijkstra.h"
 #include "../definition/graphLoader.h"
+#include <iostream>
 using namespace std;
 
+Dijkstra::Dijkstra(flyManager ref_flies, string source, string destination) {
+  std::transform(source.begin(), source.end(), source.begin(), ::toupper);
+  std::transform(destination.begin(), destination.end(), destination.begin(),
+                 ::toupper);
+
+  flies = ref_flies;
+  initial_point = source;
+  final_point = destination;
+  trackerSetup();
+};
 bool compareByDistance(const Route &a, const Route &b) {
   return a.distance > b.distance;
 }
@@ -16,48 +27,53 @@ void Dijkstra::trackerSetup() {
 void Dijkstra::addCalculateDistance(Route temp_pair) {
 
   string source_name = temp_pair.name;
-  bool not_visited = !visited_ports.contains(source_name);
-  if (not_visited) {
 
-    RouteManager *route_manager = flies.portRoutes(source_name);
-    for (Route next_route : route_manager->routes) {
+  visited_ports.insert(source_name);
+  RouteManager *route_manager = flies.portRoutes(source_name);
+  for (Route next_route : route_manager->routes) {
 
-      string next_route_name = next_route.name;
-      int source_current_distance = temp_pair.distance;
-      int next_route_distance = next_route.distance;
-      int new_total_distance = source_current_distance + next_route_distance;
+    string next_route_name = next_route.name;
+    int source_current_distance = temp_pair.distance;
+    int next_route_distance = next_route.distance;
+    int new_total_distance = source_current_distance + next_route_distance;
 
-      if (new_total_distance < distance_tracker[next_route_name]) {
-        distance_tracker[next_route_name] = new_total_distance;
-        path_tracker[next_route_name] = source_name;
-      }
+    if (new_total_distance < distance_tracker[next_route_name]) {
+      distance_tracker[next_route_name] = new_total_distance;
+      path_tracker[next_route_name] = source_name;
+    }
 
-      Route temp_val(next_route_name, new_total_distance);
+    bool not_visited =
+        !(visited_ports.find(next_route_name) != visited_ports.end());
+    if (not_visited) {
+      Route temp_val = Route(next_route_name, new_total_distance);
       queue_routes.push_back(temp_val);
-      visited_ports.insert(source_name);
     }
   }
 };
 void Dijkstra::findShortPath() {
-  std::cout << "short path from " << initial_point;
-  std::cout << " to " << final_point << std::endl;
+  if (initial_point != final_point) {
 
-  RouteManager *temp_route_manager = flies.portRoutes(initial_point);
+    RouteManager *temp_route_manager = flies.portRoutes(initial_point);
 
-  if (temp_route_manager) {
-    Route temp_val(initial_point, 0);
-    queue_routes.push_back(temp_val);
+    if (temp_route_manager) {
+      std::cout << "short path from " << initial_point;
+      std::cout << " to " << final_point << std::endl;
 
-    while (queue_routes.size() > 0) {
-      std::sort(queue_routes.begin(), queue_routes.end(), compareByDistance);
+      Route temp_val(initial_point, 0);
+      queue_routes.push_back(temp_val);
 
-      Route temp = queue_routes.back();
-      addCalculateDistance(temp);
-      queue_routes.pop_back();
+      while (queue_routes.size() > 0) {
+        std::sort(queue_routes.begin(), queue_routes.end(), compareByDistance);
+        Route temp = queue_routes.back();
+        queue_routes.pop_back();
+        addCalculateDistance(temp);
+      }
+      summary();
+    } else {
+      std::cout << "port not found: " << initial_point << std::endl;
     }
-    summary();
   } else {
-    std::cout << "port not found: " << initial_point << std::endl;
+    std::cout << "same location" << std::endl;
   }
 }
 
@@ -65,7 +81,7 @@ void Dijkstra::summary() {
   bool reach_destination = path_tracker.contains(final_point);
   if (reach_destination) {
     int total_distance = distance_tracker[final_point];
-    std::cout << "minimum distance : " << total_distance << std::endl;
+    std::cout << "minimum distance: " << total_distance << std::endl;
     vector<string> path = findBackTrackPath();
     graphLoader::traceRoute(path);
     for (string sub_path : path) {
@@ -89,4 +105,9 @@ vector<string> Dijkstra::findBackTrackPath() {
   return path;
 }
 
-void Dijkstra::renderRoutes() { graphLoader::render("routes", "routes"); }
+void Dijkstra::renderRoutes() {
+  vector<vector<string>> totalC = flies.allConnectionList();
+  graphLoader::reWritedot("./dots/routes.dot", totalC);
+
+  graphLoader::render("routes", "routes");
+}

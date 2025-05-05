@@ -15,5 +15,28 @@ bgcolor="black";
     Chicago -> SF [label="14",weight="14"];
     Chicago -> OAKLAND [label="13",weight="13"];
 
+    OAKLAND -> Seattle [label="20",weight="20"];
+    Seattle -> NYC [label="25",weight="25"];
+    Seattle -> Toronto [label="30",weight="30"];
+    Toronto -> Seattle [label="18",weight="18"];
+    NYC -> Miami [label="22",weight="22"];
+    Miami -> LA [label="17",weight="17"];
+    Miami -> Chicago [label="19",weight="19"];
+    LA -> Seattle [label="16",weight="16"];
+    Chicago -> Miami [label="21",weight="21"];
+    SF -> Chicago [label="23",weight="23"];
+
+    NYC -> Boston [label="12",weight="12"];
+    Boston -> Toronto [label="15",weight="15"];
+    Boston -> LA [label="14",weight="14"];
+    Toronto -> Miami [label="11",weight="11"];
+    Miami -> SF [label="9",weight="9"];
+    Seattle -> Chicago [label="24",weight="24"];
+    LA -> Boston [label="26",weight="26"];
+    Chicago -> Seattle [label="27",weight="27"];
+    OAKLAND -> Miami [label="28",weight="28"];
+    Toronto -> Boston [label="29",weight="29"];
+    SF -> Miami [label="30",weight="30"];
+
 }
 
