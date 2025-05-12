@@ -18,7 +18,7 @@ void displayPlane() {
 
   inputFile.close();
 }
-void commandExecution(flyManager &fly_manager, int command) {
+void commandExecution(flyManager fly_manager, int command) {
   clearScreen();
   switch (command) {
   case 1: {
@@ -28,14 +28,18 @@ void commandExecution(flyManager &fly_manager, int command) {
   case 2: {
     string source;
     string destination;
-    std::cout << "INITIAL POINT(SOURCE): " << std::endl;
+    std::cout << "INITIAL POINT(SOURCE): ";
+
     cin >> source;
-    std::cout << "FINAL POINT(DESTINATION): " << std::endl;
+    std::cout << std::endl;
+    std::cout << "FINAL POINT(DESTINATION): ";
     cin >> destination;
+    std::cout << std::endl;
     Dijkstra path_helper = Dijkstra(fly_manager, source, destination);
-    vector<vector<string>> totalC = fly_manager.allConnectionList();
-    graphLoader::reWritedot("./dots/routes.dot", totalC);
+
+    path_helper.writeConnections("routes");
     path_helper.findShortPath();
+    path_helper.summary("routes");
     break;
   }
   case 3: {
@@ -43,20 +47,22 @@ void commandExecution(flyManager &fly_manager, int command) {
     std::cout << "RANDOM" << std::endl;
     string source;
     string destination;
-    std::cout << "INITIAL POINT(SOURCE): " << std::endl;
+    std::cout << "INITIAL POINT(SOURCE): ";
     cin >> source;
-    std::cout << "FINAL POINT(DESTINATION): " << std::endl;
-    cin >> destination;
-    Dijkstra path_helper = Dijkstra(fly_manager, source, destination);
-    path_helper.renderRoutes();
 
+    std::cout << std::endl;
+
+    std::cout << "FINAL POINT(DESTINATION): ";
+    cin >> destination;
+    std::cout << std::endl;
+    Dijkstra path_helper = Dijkstra(fly_manager, source, destination);
+    path_helper.writeConnections("random");
     path_helper.findShortPath();
+    path_helper.summary("random");
     break;
   }
   case 4: {
-    vector<vector<string>> totalC = fly_manager.allConnectionList();
-    graphLoader::reWritedot("./dots/routes.dot", totalC);
-    graphLoader::render("routes", "routes");
+    graphLoader::render("default");
     fly_manager.overview();
     break;
   }
@@ -65,6 +71,7 @@ void commandExecution(flyManager &fly_manager, int command) {
     break;
   }
 
+  std::cout << endl;
   string s;
   std::cout << "Press any character to proceed...\n";
   std::cin.ignore() >> s; // Waits for the user to press Enter

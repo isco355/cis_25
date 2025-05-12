@@ -9,14 +9,14 @@ void executeCommand(string str_command) {
   strcpy(char_command, str_command.c_str());
   system(char_command);
 }
-void graphLoader::render(string source_name_file, string out_name_file) {
+void graphLoader::render(string name_file) {
 
   string execution = "dot -Tjpeg -Gdpi=300 ";
-  string source_file = "dots/" + source_name_file + ".dot ";
-  string output_file = "-o render/" + out_name_file + ".jpg";
+  string source_file = "dots/" + name_file + ".dot ";
+  string output_file = "-o render/" + name_file + ".jpg";
   string command = execution + source_file + output_file;
   executeCommand(command);
-  executeCommand("open ./render/" + out_name_file + ".jpg");
+  executeCommand("open ./render/" + name_file + ".jpg");
 }
 vector<string> validNodeFormat(string line) {
   vector<string> values;
@@ -75,7 +75,6 @@ void graphLoader::reWritedot(string file_name,
   std::fstream temp_dot_file(file_name);
 
   bool is_open = temp_dot_file.is_open();
-  std::cout << is_open << std::endl;
   if (is_open) {
 
     initialFile(temp_dot_file);
@@ -89,9 +88,9 @@ void graphLoader::reWritedot(string file_name,
 
   temp_dot_file.close();
 }
-void graphLoader::traceRoute(vector<string> trace_path) {
-  string file_name = "dots/routes.dot";
-  string target_name = "dots/track_route.dot";
+void graphLoader::traceRoute(string source_file, vector<string> trace_path) {
+  string file_name = "dots/" + source_file + ".dot";
+  string target_name = "dots/path.dot";
   std::fstream inputFile(file_name);
   std::fstream target_file(target_name);
 

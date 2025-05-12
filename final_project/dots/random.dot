@@ -1,13 +1,12 @@
 digraph {
 rankdir=LR ;
-CHICAGO -> SF [label="441",weight="441"];
-CHICAGO -> OAKLAND [label="166",weight="166"];
-LA -> NYC [label="493",weight="493"];
-LA -> TORONTO [label="43",weight="43"];
-NYC -> CHICAGO [label="988",weight="988"];
-OAKLAND -> LA [label="504",weight="504"];
-SF -> OAKLAND [label="328",weight="328"];
-SF -> NYC [label="730",weight="730"];
-TORONTO -> NYC [label="841",weight="841"];
-TORONTO -> SF [label="613",weight="613"];
+bgcolor="black";node [fontcolor="white",color="white"];
+edge[color="white", fontcolor ="white"];CHICAGO -> DENVER [label="808",weight="808"];
+LA -> NYC [label="250",weight="250"];
+LA -> TORONTO [label="74",weight="74"];
+OAKLAND -> LA [label="659",weight="659"];
+SF -> OAKLAND [label="931",weight="931"];
+SF -> NYC [label="273",weight="273"];
+TORONTO -> NYC [label="545",weight="545"];
+TORONTO -> SF [label="879",weight="879"];
 }

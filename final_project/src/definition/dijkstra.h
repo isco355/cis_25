@@ -27,11 +27,11 @@ public:
   Dijkstra(flyManager ref_flies, string source, string destination);
   void trackerSetup();
   void addCalculateDistance(Route temp_pair);
-  void renderRoutes();
+  void writeConnections(string file_name);
   void renderShortRoute();
   void findShortPath();
 
-  void summary();
+  void summary(string source_file);
   vector<string> findBackTrackPath();
 };
 

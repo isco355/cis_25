@@ -7,7 +7,6 @@ Dijkstra::Dijkstra(flyManager ref_flies, string source, string destination) {
   std::transform(source.begin(), source.end(), source.begin(), ::toupper);
   std::transform(destination.begin(), destination.end(), destination.begin(),
                  ::toupper);
-
   flies = ref_flies;
   initial_point = source;
   final_point = destination;
@@ -50,6 +49,7 @@ void Dijkstra::addCalculateDistance(Route temp_pair) {
     }
   }
 };
+
 void Dijkstra::findShortPath() {
   if (initial_point != final_point) {
 
@@ -63,12 +63,13 @@ void Dijkstra::findShortPath() {
       queue_routes.push_back(temp_val);
 
       while (queue_routes.size() > 0) {
+        std::cout << temp_val;
         std::sort(queue_routes.begin(), queue_routes.end(), compareByDistance);
         Route temp = queue_routes.back();
-        queue_routes.pop_back();
+
         addCalculateDistance(temp);
+        queue_routes.pop_back();
       }
-      summary();
     } else {
       std::cout << "port not found: " << initial_point << std::endl;
     }
@@ -77,21 +78,24 @@ void Dijkstra::findShortPath() {
   }
 }
 
-void Dijkstra::summary() {
+void Dijkstra::summary(string source_file) {
   bool reach_destination = path_tracker.contains(final_point);
   if (reach_destination) {
     int total_distance = distance_tracker[final_point];
-    std::cout << "minimum distance: " << total_distance << std::endl;
+    std::cout << "MINIMUM DISTANCE: " << total_distance << std::endl;
     vector<string> path = findBackTrackPath();
-    graphLoader::traceRoute(path);
+    graphLoader::traceRoute(source_file, path);
+    graphLoader::render("path");
+    cout << std::endl;
+    std::cout << "PATH: " << std::endl;
     for (string sub_path : path) {
       std::cout << sub_path << std::endl;
     }
-    graphLoader::render("track_route", "short_route_mark");
   } else {
     std::cout << "Path not Found" << std::endl;
   }
 }
+
 vector<string> Dijkstra::findBackTrackPath() {
   vector<string> path;
   string temp = final_point;
@@ -105,9 +109,10 @@ vector<string> Dijkstra::findBackTrackPath() {
   return path;
 }
 
-void Dijkstra::renderRoutes() {
+void Dijkstra::writeConnections(string file_name) {
+  string file = "./dots/" + file_name + ".dot";
   vector<vector<string>> totalC = flies.allConnectionList();
-  graphLoader::reWritedot("./dots/routes.dot", totalC);
+  graphLoader::reWritedot(file, totalC);
 
-  graphLoader::render("routes", "routes");
+  // graphLoader::render(file_name);
 }
