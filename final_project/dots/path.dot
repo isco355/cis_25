@@ -4,10 +4,13 @@ bgcolor="black";node [fontcolor="white",color="white"];
 edge[color="white", fontcolor ="white"];CHICAGO -> SF [label="14",weight="14"];
 CHICAGO -> OAKLAND [label="13",weight="13"];
 LA -> NYC [label="15",weight="15"];
-LA -> TORONTO [label="9",weight="9"];
+LA -> TORONTO [label="9",weight="9",color=royalblue2,penwidth=8.0,fontSize=20,shape=Msquare];
+
 NYC -> CHICAGO [label="11",weight="11"];
-OAKLAND -> LA [label="12",weight="12"];
-SF -> OAKLAND [label="5",weight="5"];
+OAKLAND -> LA [label="12",weight="12",color=royalblue2,penwidth=8.0,fontSize=20,shape=Msquare];
+
+SF -> OAKLAND [label="5",weight="5",color=royalblue2,penwidth=8.0,fontSize=20,shape=Msquare];
+
 SF -> NYC [label="8",weight="8"];
 TORONTO -> NYC [label="6",weight="6"];
 TORONTO -> SF [label="7",weight="7"];

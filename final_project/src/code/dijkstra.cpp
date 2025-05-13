@@ -27,25 +27,27 @@ void Dijkstra::addCalculateDistance(Route temp_pair) {
 
   string source_name = temp_pair.name;
 
-  visited_ports.insert(source_name);
-  RouteManager *route_manager = flies.portRoutes(source_name);
-  for (Route next_route : route_manager->routes) {
+  bool res = flies.doesPortExist(source_name);
+  if (res) {
+    RouteManager *route_manager = flies.portRoutes(source_name);
+    for (Route next_route : route_manager->routes) {
 
-    string next_route_name = next_route.name;
-    int source_current_distance = temp_pair.distance;
-    int next_route_distance = next_route.distance;
-    int new_total_distance = source_current_distance + next_route_distance;
+      string next_route_name = next_route.name;
+      int source_current_distance = temp_pair.distance;
+      int next_route_distance = next_route.distance;
+      int new_total_distance = source_current_distance + next_route_distance;
 
-    if (new_total_distance < distance_tracker[next_route_name]) {
-      distance_tracker[next_route_name] = new_total_distance;
-      path_tracker[next_route_name] = source_name;
-    }
+      if (new_total_distance < distance_tracker[next_route_name]) {
+        distance_tracker[next_route_name] = new_total_distance;
+        path_tracker[next_route_name] = source_name;
+      }
 
-    bool not_visited =
-        !(visited_ports.find(next_route_name) != visited_ports.end());
-    if (not_visited) {
-      Route temp_val = Route(next_route_name, new_total_distance);
-      queue_routes.push_back(temp_val);
+      bool not_visited =
+          !(visited_ports.find(next_route_name) != visited_ports.end());
+      if (not_visited) {
+        Route temp_val = Route(next_route_name, new_total_distance);
+        queue_routes.push_back(temp_val);
+      }
     }
   }
 };
@@ -63,12 +65,11 @@ void Dijkstra::findShortPath() {
       queue_routes.push_back(temp_val);
 
       while (queue_routes.size() > 0) {
-        std::cout << temp_val;
         std::sort(queue_routes.begin(), queue_routes.end(), compareByDistance);
         Route temp = queue_routes.back();
-
-        addCalculateDistance(temp);
         queue_routes.pop_back();
+        visited_ports.insert(temp.name);
+        addCalculateDistance(temp);
       }
     } else {
       std::cout << "port not found: " << initial_point << std::endl;

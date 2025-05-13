@@ -54,7 +54,6 @@ void getFile(string file_name) {
   std::fstream inputFile(file_name);
   bool file_exit = inputFile.good();
   if (!file_exit) {
-    std::cout << "not found" << std::endl;
     string str_command = "touch " + file_name;
     executeCommand(str_command);
   }
