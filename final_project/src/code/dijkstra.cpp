@@ -28,7 +28,6 @@ void Dijkstra::addCalculateDistance(Route temp_pair) {
 
   string source_name = temp_pair.name;
 
-  visited_ports.insert(source_name);
   RouteManager *route_manager = flies.portRoutes(source_name);
   for (Route next_route : route_manager->routes) {
 
@@ -65,7 +64,9 @@ void Dijkstra::findShortPath() {
       while (queue_routes.size() > 0) {
         std::sort(queue_routes.begin(), queue_routes.end(), compareByDistance);
         Route temp = queue_routes.back();
+
         queue_routes.pop_back();
+        visited_ports.insert(temp.name);
         addCalculateDistance(temp);
       }
       summary();

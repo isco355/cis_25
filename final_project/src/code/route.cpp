@@ -1,7 +1,6 @@
 #include "../definition/route.h"
 int generateRandomValues() {
   int random_end_range = 1000;
-  // srand(time(0));
   int random_value = rand() % random_end_range + 1;
   return random_value;
 }
